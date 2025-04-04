@@ -81,6 +81,11 @@ function App() {
     socketRef.current.emit('join',(roomId));
   }
 
+  const tabHandler = (e)=>{
+    setIsGroup(e.target.name==='group'?true:false);
+    setMessages([]);
+  }
+
   return (
     <>
          <div className='text-2xl font-bold'> 
@@ -88,8 +93,8 @@ function App() {
          </div>
          <div>
           <div className='flex m-8 gap-2 justify-center'>
-            <button name='personal' onClick={()=>setIsGroup(!isGroup)} className='flex-1 bg-green-500 rounded-lg h-[40px] hover:cursor-pointer hover:shadow-[2px_2px_3px_white] focus:bg-gray-500'>Personal Chat</button>
-            <button name="group" onClick={()=>setIsGroup(!isGroup)}  className='flex-1 bg-green-500 rounded-lg h-[40px] hover:cursor-pointer hover:shadow-[2px_2px_3px_white] focus:bg-gray-500'>Room Chat</button>
+            <button name='personal' onClick={tabHandler} className='flex-1 bg-green-500 rounded-lg h-[40px] hover:cursor-pointer hover:shadow-[2px_2px_3px_white] focus:bg-gray-500'>Personal Chat</button>
+            <button name="group" onClick={tabHandler}  className='flex-1 bg-green-500 rounded-lg h-[40px] hover:cursor-pointer hover:shadow-[2px_2px_3px_white] focus:bg-gray-500'>Room Chat</button>
           </div> 
           {
             isGroup

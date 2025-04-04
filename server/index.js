@@ -35,7 +35,7 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('join',(room)=>{
-        socket.join(room);
+        socket.join(room);  
     })
 })   
     
