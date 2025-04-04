@@ -18,23 +18,28 @@ const io = new Server(httpServer,{
     }
 })
 
+const users = [];
+
 io.on('connection', (socket)=>{
     console.log("a new user connected");
-    console.log('userId:' , socket.id) 
+    console.log('userId:' , socket.id)     
+    users.push(socket.id);
+    io.emit('users',users);    
     socket.emit('welcome',`Welcome to the server ${socket.id}`); 
     socket.broadcast.emit('welcome',`${socket.id} joined the server`);
 
-    socket.on('msg', ({msg, receiver})=>{
-        console.log({msg,receiver});
-        socket.to(receiver).emit('msg-listener',msg);
+    socket.on('msg', (message)=>{   
+        console.log(message.msg, message.receiver);
+        socket.to(message.receiver).emit('msg-listener',({text:message.msg, from:socket.id}));
+        socket.emit('msg-self',({text:message.msg, to:message.receiver}));
     })
-}) 
-
-app.get('/',(req,res)=>{
+})   
+    
+app.get('/',(req,res)=>{ 
     res.send("hi"); 
 })
 
 
 httpServer.listen(port, ()=>{
     console.log(`server listening on port ${port}`);
-})
+}) 
