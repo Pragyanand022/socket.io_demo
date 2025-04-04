@@ -33,13 +33,16 @@ io.on('connection', (socket)=>{
         socket.to(message.receiver).emit('msg-listener',({text:message.msg, from:socket.id}));
         socket.emit('msg-self',({text:message.msg, to:message.receiver}));
     })
+
+    socket.on('join',(room)=>{
+        socket.join(room);
+    })
 })   
     
 app.get('/',(req,res)=>{ 
     res.send("hi"); 
 })
-
-
+  
 httpServer.listen(port, ()=>{
     console.log(`server listening on port ${port}`);
 }) 
